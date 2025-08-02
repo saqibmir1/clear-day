@@ -88,7 +88,7 @@ class ClearDayApp {
 
         // Pre-fill form with current settings
         document.getElementById('cigarettesPerDay').value = this.data.cigarettesPerDay || 20;
-        document.getElementById('pricePerPack').value = this.data.pricePerPack || 10;
+        document.getElementById('pricePerPack').value = this.data.pricePerPack || 150;
         document.getElementById('cigarettesPerPack').value = this.data.cigarettesPerPack || 20;
     }
 
@@ -109,29 +109,42 @@ class ClearDayApp {
             `${metrics.hoursStreak} hours, ${metrics.minutesStreak} minutes`;
 
         // Update stats
-        document.getElementById('moneySaved').textContent = metrics.moneySaved.toFixed(2);
+        document.getElementById('moneySaved').textContent = metrics.moneySaved.toFixed(0);
         document.getElementById('cigarettesAvoided').textContent = metrics.cigarettesAvoided;
 
-        // Update health progress with animations
-        this.updateHealthProgress('heartRate', metrics.healthProgress.heartRate);
-        this.updateHealthProgress('lungFunction', metrics.healthProgress.lungFunction);
-        this.updateHealthProgress('circulation', metrics.healthProgress.circulation);
-        this.updateHealthProgress('energyLevel', metrics.healthProgress.energyLevel);
+        // Update lifetime regained (11 minutes per cigarette)
+        this.updateLifetimeRegained(metrics.cigarettesAvoided);
 
         // Update achievements
         this.updateAchievements(metrics.achievements);
     }
 
-    updateHealthProgress(type, value) {
-        const percentage = Math.round(value);
-        document.getElementById(type).textContent = percentage;
+    updateLifetimeRegained(cigarettesAvoided) {
+        const minutesRegained = cigarettesAvoided * 11;
+        const lifetimeElement = document.getElementById('lifetimeRegained');
 
-        const progressBar = document.querySelector(`.progress-fill.${type.replace('Rate', '').replace('Function', '').replace('Level', '').toLowerCase()}`);
-        if (progressBar) {
-            // Animate progress bar
-            setTimeout(() => {
-                progressBar.style.width = `${percentage}%`;
-            }, 100);
+        if (lifetimeElement) {
+            // Format the time nicely
+            let displayValue;
+            let displayUnit;
+
+            if (minutesRegained < 60) {
+                displayValue = minutesRegained;
+                displayUnit = minutesRegained === 1 ? 'minute' : 'minutes';
+            } else if (minutesRegained < 1440) { // Less than a day
+                const hours = Math.floor(minutesRegained / 60);
+                const remainingMinutes = minutesRegained % 60;
+                displayValue = hours + (remainingMinutes > 0 ? `.${Math.round((remainingMinutes / 60) * 10)}` : '');
+                displayUnit = hours === 1 ? 'hour' : 'hours';
+            } else { // Days
+                const days = Math.floor(minutesRegained / 1440);
+                const remainingHours = Math.floor((minutesRegained % 1440) / 60);
+                displayValue = days + (remainingHours > 0 ? `.${Math.round((remainingHours / 24) * 10)}` : '');
+                displayUnit = days === 1 ? 'day' : 'days';
+            }
+
+            lifetimeElement.textContent = displayValue;
+            lifetimeElement.nextElementSibling.textContent = displayUnit;
         }
     }
 
@@ -177,7 +190,8 @@ class ClearDayApp {
 
             if (response.ok) {
                 this.data = result.data;
-                this.showSuccessMessage('Journey started! You\'ve got this! 🚀');
+                this.showSuccessMessage('🎉 Journey started! You\'re absolutely amazing! Keep going! 🌟');
+                this.createCelebration();
                 this.updateUI();
             } else {
                 this.showError(result.error || 'Failed to start journey');
@@ -230,7 +244,7 @@ class ClearDayApp {
             if (response.ok) {
                 this.data = result.data;
                 this.closeSettingsModal();
-                this.showSuccessMessage('Settings updated successfully! 📋');
+                this.showSuccessMessage('✨ Settings updated! You\'re crushing it! ✨');
                 this.updateDashboardData();
             } else {
                 this.showError(result.error || 'Failed to update settings');
@@ -263,7 +277,7 @@ class ClearDayApp {
             if (response.ok) {
                 this.data = result.data;
                 this.closeResetModal();
-                this.showSuccessMessage('Streak reset. Remember, every setback is a setup for a comeback! 💪');
+                this.showSuccessMessage('💪 Journey reset! Remember, every setback is a setup for an incredible comeback! You\'ve got this! 🌟');
                 this.updateUI();
             } else {
                 this.showError(result.error || 'Failed to reset streak');
@@ -285,8 +299,8 @@ class ClearDayApp {
             return false;
         }
 
-        if (!pricePerPack || pricePerPack < 0.01 || pricePerPack > 100) {
-            this.showError('Please enter a valid price per pack ($0.01-$100)');
+        if (!pricePerPack || pricePerPack < 1 || pricePerPack > 1000) {
+            this.showError('Please enter a valid price per pack (₹1-₹1000)');
             return false;
         }
 
@@ -361,6 +375,42 @@ class ClearDayApp {
         }, 4000);
     }
 
+    createCelebration() {
+        const colors = [
+            'linear-gradient(45deg, #667eea, #764ba2)',
+            'linear-gradient(45deg, #f093fb, #f5576c)',
+            'linear-gradient(45deg, #43e97b, #38f9d7)',
+            'linear-gradient(45deg, #feca57, #ff9ff3)'
+        ];
+
+        for (let i = 0; i < 20; i++) {
+            setTimeout(() => {
+                const particle = document.createElement('div');
+                particle.className = 'celebration-particle';
+                particle.style.cssText = `
+                    position: fixed;
+                    left: ${Math.random() * window.innerWidth}px;
+                    top: ${Math.random() * window.innerHeight * 0.7 + window.innerHeight * 0.3}px;
+                    width: ${Math.random() * 8 + 4}px;
+                    height: ${Math.random() * 8 + 4}px;
+                    background: ${colors[Math.floor(Math.random() * colors.length)]};
+                    border-radius: 50%;
+                    pointer-events: none;
+                    z-index: 9999;
+                `;
+
+                document.body.appendChild(particle);
+
+                // Remove after animation
+                setTimeout(() => {
+                    if (particle.parentNode) {
+                        particle.remove();
+                    }
+                }, 2000);
+            }, i * 50);
+        }
+    }
+
     startRealTimeUpdates() {
         // Update every minute to keep the timer current
         this.updateInterval = setInterval(() => {
@@ -390,8 +440,11 @@ class ClearDayApp {
         const packsAvoided = cigarettesAvoided / this.data.cigarettesPerPack;
         const moneySaved = packsAvoided * this.data.pricePerPack;
 
-        document.getElementById('moneySaved').textContent = (Math.round(moneySaved * 100) / 100).toFixed(2);
+        document.getElementById('moneySaved').textContent = (Math.round(moneySaved * 100) / 100).toFixed(0);
         document.getElementById('cigarettesAvoided').textContent = cigarettesAvoided;
+
+        // Update lifetime regained too
+        this.updateLifetimeRegained(cigarettesAvoided);
     }
 
     destroy() {
@@ -401,53 +454,8 @@ class ClearDayApp {
     }
 }
 
-// Motivational quotes array
-const motivationalQuotes = [
-    {
-        text: "The secret of getting ahead is getting started.",
-        author: "Mark Twain"
-    },
-    {
-        text: "It does not matter how slowly you go as long as you do not stop.",
-        author: "Confucius"
-    },
-    {
-        text: "Success is not final, failure is not fatal: it is the courage to continue that counts.",
-        author: "Winston Churchill"
-    },
-    {
-        text: "The only impossible journey is the one you never begin.",
-        author: "Tony Robbins"
-    },
-    {
-        text: "Your limitation—it's only your imagination.",
-        author: "Unknown"
-    },
-    {
-        text: "Don't watch the clock; do what it does. Keep going.",
-        author: "Sam Levenson"
-    },
-    {
-        text: "The future depends on what you do today.",
-        author: "Mahatma Gandhi"
-    },
-    {
-        text: "You are never too old to set another goal or to dream a new dream.",
-        author: "C.S. Lewis"
-    }
-];
-
 // Initialize the app when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-    // Set random motivational quote
-    const randomQuote = motivationalQuotes[Math.floor(Math.random() * motivationalQuotes.length)];
-    const quoteTextElement = document.querySelector('.quote-text');
-    const quoteAuthorElement = document.querySelector('.quote-author');
-
-    if (quoteTextElement && quoteAuthorElement) {
-        quoteTextElement.textContent = `"${randomQuote.text}"`;
-        quoteAuthorElement.textContent = `- ${randomQuote.author}`;
-    }
 
     // Initialize the app
     const app = new ClearDayApp();

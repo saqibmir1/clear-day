@@ -20,7 +20,7 @@ async function initializeDataFile() {
         const defaultData = {
             startDate: null,
             cigarettesPerDay: 20,
-            pricePerPack: 10,
+            pricePerPack: 150,
             cigarettesPerPack: 20,
             isActive: false
         };
@@ -50,7 +50,6 @@ async function writeData(data) {
     }
 }
 
-// Calculate streak and other metrics
 function calculateMetrics(data) {
     if (!data.startDate || !data.isActive) {
         return {
@@ -59,12 +58,6 @@ function calculateMetrics(data) {
             minutesStreak: 0,
             moneySaved: 0,
             cigarettesAvoided: 0,
-            healthProgress: {
-                circulation: 0,
-                lungFunction: 0,
-                heartRate: 0,
-                energyLevel: 0
-            },
             achievements: []
         };
     }
@@ -80,14 +73,6 @@ function calculateMetrics(data) {
     const cigarettesAvoided = Math.floor((timeDiff / (1000 * 60 * 60 * 24)) * data.cigarettesPerDay);
     const packsAvoided = cigarettesAvoided / data.cigarettesPerPack;
     const moneySaved = packsAvoided * data.pricePerPack;
-
-    // Health progress calculations (simplified percentages based on days)
-    const healthProgress = {
-        circulation: Math.min(100, (days / 365) * 100), // Improves over a year
-        lungFunction: Math.min(100, (days / 90) * 100), // Notable improvement in 3 months
-        heartRate: Math.min(100, (days / 30) * 100), // Improves in a month
-        energyLevel: Math.min(100, (days / 7) * 100) // Quick improvement in a week
-    };
 
     // Achievement system
     const achievements = [];
@@ -114,12 +99,9 @@ function calculateMetrics(data) {
         minutesStreak: minutes,
         moneySaved: Math.round(moneySaved * 100) / 100,
         cigarettesAvoided,
-        healthProgress,
         achievements
     };
-}
-
-// Routes
+}// Routes
 
 // GET /data - Returns user streak data
 app.get('/api/data', async (req, res) => {
