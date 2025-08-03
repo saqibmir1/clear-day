@@ -349,15 +349,22 @@ function updateDisplay() {
     }
 }
 
-// Enhanced particle system
+// Enhanced particle system - Liquid glass theme
 function createParticle() {
     const particle = document.createElement('div');
     particle.className = 'particle';
-    particle.innerHTML = ['✨', '💫', '⭐', '🌟', '💎'][Math.floor(Math.random() * 5)];
+    
+    // Create elegant glass-like shapes instead of emojis
+    const shapes = [
+        'circle', 'diamond', 'hexagon', 'triangle', 'oval'
+    ];
+    const shape = shapes[Math.floor(Math.random() * shapes.length)];
+    
+    particle.classList.add(`particle-${shape}`);
     particle.style.left = Math.random() * 100 + 'vw';
     particle.style.fontSize = (Math.random() * 16 + 12) + 'px';
-    particle.style.animationDuration = (Math.random() * 4 + 6) + 's';
-    particle.style.animationDelay = Math.random() * 2 + 's';
+    particle.style.animationDuration = (Math.random() * 6 + 8) + 's';
+    particle.style.animationDelay = Math.random() * 3 + 's';
 
     document.body.appendChild(particle);
 
@@ -365,7 +372,7 @@ function createParticle() {
         if (particle.parentNode) {
             particle.remove();
         }
-    }, 10000);
+    }, 14000);
 }
 
 // Initialize everything
@@ -378,12 +385,12 @@ function init() {
     // Update time every minute
     setInterval(updateDisplay, 60000);
 
-    // Create particles periodically
-    setInterval(createParticle, 4000);
+    // Create particles periodically (less frequent for elegance)
+    setInterval(createParticle, 6000);
 
-    // Initial burst of particles
-    for (let i = 0; i < 3; i++) {
-        setTimeout(createParticle, i * 800);
+    // Initial subtle burst of particles
+    for (let i = 0; i < 2; i++) {
+        setTimeout(createParticle, i * 1200);
     }
     
     // Close achievements popup when clicking outside

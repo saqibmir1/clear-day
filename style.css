@@ -363,24 +363,9 @@
             background: linear-gradient(135deg, var(--secondary-glass), var(--primary-glass));
         }
 
-        .achievements-preview::after {
-            content: '🏆';
-            position: absolute;
-            top: 8px;
-            right: 10px;
-            font-size: 1rem;
-            opacity: 0.8;
-            animation: achievementBounce 2s ease-in-out infinite;
-        }
-
         .achievements-preview:hover {
             border-color: var(--theme-secondary);
             transform: translateY(-4px) scale(1.05);
-        }
-
-        @keyframes achievementBounce {
-            0%, 100% { transform: translateY(0px) scale(1); }
-            50% { transform: translateY(-3px) scale(1.1); }
         }
 
         .stat-icon {
@@ -505,7 +490,7 @@
         @media (max-width: 480px) {
             .card-container {
                 width: 360px;
-                height: 520px;
+                height: 550px;
             }
 
             .card-face {
@@ -525,15 +510,25 @@
             }
 
             .stat-item {
-                padding: 14px 10px;
-                min-height: 70px;
+                padding: 12px 10px;
+                min-height: 65px;
+            }
+
+            .stats-container {
+                gap: 10px;
+                margin-bottom: 15px;
+            }
+
+            .flip-hint {
+                padding: 8px 0;
+                font-size: 0.8rem;
             }
         }
 
         @media (max-width: 360px) {
             .card-container {
                 width: 320px;
-                height: 480px;
+                height: 510px;
             }
 
             .streak-number {
@@ -546,6 +541,21 @@
 
             .stat-value {
                 font-size: 1.4rem;
+            }
+
+            .stat-item {
+                padding: 10px 8px;
+                min-height: 60px;
+            }
+
+            .stats-container {
+                gap: 8px;
+                margin-bottom: 12px;
+            }
+
+            .flip-hint {
+                padding: 6px 0;
+                font-size: 0.75rem;
             }
         }
 
