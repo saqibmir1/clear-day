@@ -581,16 +581,6 @@
             }, 10000);
         }
 
-        // Auto-flip demonstration
-        function autoFlipDemo() {
-            setTimeout(() => {
-                flipCard();
-                setTimeout(() => {
-                    flipCard();
-                }, 2500);
-            }, 3000);
-        }
-
         // Initialize everything
         function init() {
             updateDisplay();
@@ -608,9 +598,6 @@
             for(let i = 0; i < 3; i++) {
                 setTimeout(createParticle, i * 800);
             }
-            
-            // Demo flip on load
-            autoFlipDemo();
         }
 
         // Start when page loads
