@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clear Day - My Smoke-Free Journey</title>
     <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Feather Icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
     <style>
         :root {
             --primary-glass: rgba(255, 255, 255, 0.08);
@@ -177,6 +179,18 @@
             letter-spacing: -0.02em;
             line-height: 1.1;
             animation: titleGlow 3s ease-in-out infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .title svg {
+            width: 2.4rem;
+            height: 2.4rem;
+            stroke: var(--text-primary);
+            stroke-width: 1.5;
+            filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.5));
         }
 
         @keyframes titleGlow {
@@ -301,6 +315,14 @@
             filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.3));
         }
 
+        .stat-icon svg {
+            width: 2.2rem;
+            height: 2.2rem;
+            stroke: var(--text-primary);
+            stroke-width: 1.5;
+            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.4));
+        }
+
         @keyframes iconFloat {
             0%, 100% { 
                 transform: translateY(0px) rotate(0deg); 
@@ -335,6 +357,17 @@
             animation: hintPulse 3s ease-in-out infinite;
             letter-spacing: 0.02em;
             margin-top: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .flip-hint svg {
+            width: 0.9rem;
+            height: 0.9rem;
+            stroke: var(--text-tertiary);
+            stroke-width: 1.5;
         }
 
         @keyframes hintPulse {
@@ -455,7 +488,7 @@
             <!-- Front Face - Streak -->
             <div class="card-face front">
                 <div class="card-header">
-                    <div class="title">🌤️ Clear Day</div>
+                    <div class="title"><i data-feather="sun"></i> Clear Day</div>
                     <div class="subtitle">Smoke-free journey</div>
                 </div>
 
@@ -465,31 +498,31 @@
                     <div class="streak-details" id="timeDetails">0 hours, 0 minutes</div>
                 </div>
 
-                <div class="flip-hint">✨ Tap to see your progress</div>
+                <div class="flip-hint"><i data-feather="bar-chart"></i> Tap to see your progress</div>
             </div>
 
             <!-- Back Face - Stats -->
             <div class="card-face back">
                 <div class="card-header">
-                    <div class="title">📊 Progress</div>
+                    <div class="title"><i data-feather="trending-up"></i> Progress</div>
                     <div class="subtitle">Your achievements</div>
                 </div>
 
                 <div class="stats-container">
                     <div class="stat-item">
-                        <div class="stat-icon">💰</div>
+                        <div class="stat-icon"><i data-feather="dollar-sign"></i></div>
                         <div class="stat-value">₹<span id="moneySaved">0</span></div>
                         <div class="stat-label">Money Saved</div>
                     </div>
 
                     <div class="stat-item">
-                        <div class="stat-icon">🚭</div>
+                        <div class="stat-icon"><i data-feather="slash"></i></div>
                         <div class="stat-value" id="cigarettesAvoided">0</div>
                         <div class="stat-label">Cigarettes Avoided</div>
                     </div>
                 </div>
 
-                <div class="flip-hint">✨ Tap to see your streak</div>
+                <div class="flip-hint"><i data-feather="trending-up"></i> Tap to see your streak</div>
             </div>
         </div>
     </div>
@@ -560,6 +593,9 @@
         // Initialize everything
         function init() {
             updateDisplay();
+            
+            // Initialize Feather icons
+            feather.replace();
             
             // Update time every minute
             setInterval(updateDisplay, 60000);
