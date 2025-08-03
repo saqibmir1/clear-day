@@ -49,12 +49,48 @@
                         <div class="stat-value" id="cigarettesAvoided">0</div>
                         <div class="stat-label">Cigarettes Avoided</div>
                     </div>
+
+                    <div class="stat-item achievements-preview" onclick="openAchievements(event)">
+                        <div class="stat-icon"><i data-feather="award"></i></div>
+                        <div class="stat-value" id="nextAchievementName">Next Goal</div>
+                        <div class="stat-label" id="nextAchievementTime">Loading...</div>
+                    </div>
                 </div>
 
                 <div class="flip-hint"><i data-feather="trending-up"></i> Tap to see your streak</div>
             </div>
         </div>
     </div>
+
+    <!-- Achievements Popup -->
+    <div class="achievements-popup" id="achievementsPopup">
+        <div class="achievements-container">
+            <div class="achievements-header">
+                <div class="achievements-title">
+                    <i data-feather="award"></i>
+                    Achievements
+                </div>
+                <button class="close-btn" onclick="closeAchievements()">
+                    <i data-feather="x"></i>
+                </button>
+            </div>
+            
+            <div class="achievements-progress">
+                <div class="overall-progress">
+                    <div class="progress-label">Overall Progress</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="overallProgress"></div>
+                    </div>
+                    <div class="progress-text" id="overallProgressText">0 / 10 achievements</div>
+                </div>
+            </div>
+
+            <div class="achievements-grid" id="achievementsGrid">
+                <!-- Achievements will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 
