@@ -447,32 +447,93 @@
             }
         }
 
-        /* Floating particles */
+              /* Elegant glass particles */
         .particle {
             position: absolute;
             pointer-events: none;
-            opacity: 0.6;
-            animation: particleFloat 8s linear infinite;
+            opacity: 0;
+            animation: particleFloat 10s linear infinite;
             z-index: 5;
+            width: 12px;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 
+                0 4px 12px rgba(255, 255, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        }
+
+        .particle-circle {
+            border-radius: 50%;
+        }
+
+        .particle-diamond {
+            transform: rotate(45deg);
+            border-radius: 2px;
+        }
+
+        .particle-hexagon {
+            width: 14px;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.25);
+            position: relative;
+            border-radius: 2px;
+        }
+
+        .particle-hexagon::before,
+        .particle-hexagon::after {
+            content: "";
+            position: absolute;
+            width: 0;
+            border-left: 7px solid transparent;
+            border-right: 7px solid transparent;
+        }
+
+        .particle-hexagon::before {
+            bottom: 100%;
+            border-bottom: 4px solid rgba(255, 255, 255, 0.25);
+        }
+
+        .particle-hexagon::after {
+            top: 100%;
+            border-top: 4px solid rgba(255, 255, 255, 0.25);
+        }
+
+        .particle-triangle {
+            width: 0;
+            height: 0;
+            background: transparent;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-bottom: 10px solid rgba(255, 255, 255, 0.3);
+            border-radius: 0;
+        }
+
+        .particle-oval {
+            border-radius: 50%;
+            width: 16px;
+            height: 8px;
         }
 
         @keyframes particleFloat {
             0% {
-                transform: translateY(100vh) rotate(0deg) scale(0.5);
+                transform: translateY(100vh) rotate(0deg) scale(0.3);
                 opacity: 0;
             }
 
             10% {
-                opacity: 0.6;
+                opacity: 0.7;
                 transform: scale(1);
             }
 
             90% {
-                opacity: 0.6;
+                opacity: 0.7;
             }
 
             100% {
-                transform: translateY(-100vh) rotate(360deg) scale(0.5);
+                transform: translateY(-100vh) rotate(360deg) scale(0.3);
                 opacity: 0;
             }
         }
