@@ -964,3 +964,228 @@
                 font-size: 1rem;
             }
         }
+
+        /* Coin Modal Styles */
+        .coin-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            padding: 20px;
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .coin-modal-content {
+            background: var(--primary-glass);
+            backdrop-filter: var(--blur-heavy);
+            -webkit-backdrop-filter: var(--blur-heavy);
+            border: 1px solid var(--border-glass);
+            border-radius: 24px;
+            width: 100%;
+            max-width: 500px;
+            overflow: hidden;
+            box-shadow: var(--shadow-strong);
+            animation: modalSlideUp 0.3s ease;
+        }
+
+        @keyframes modalSlideUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .coin-modal-header {
+            padding: 30px 30px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-glass);
+        }
+
+        .coin-modal-header h3 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .coin-modal-close {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 2rem;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+        }
+
+        .coin-modal-close:hover {
+            background: var(--secondary-glass);
+            color: var(--text-primary);
+            transform: scale(1.1);
+        }
+
+        .coin-modal-body {
+            padding: 30px;
+            text-align: center;
+        }
+
+        .coin-display-large {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 30px;
+            transition: transform 0.3s ease;
+        }
+
+        .coin-display-large:hover {
+            transform: scale(1.05) rotate(5deg);
+        }
+
+        .coin-display-large.locked {
+            opacity: 0.6;
+            filter: grayscale(0.5);
+        }
+
+        .coin-display-large svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.3));
+        }
+
+        .coin-info {
+            margin-bottom: 30px;
+        }
+
+        .coin-info p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .coin-info strong {
+            color: var(--text-primary);
+        }
+
+        .coin-actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .download-btn {
+            background: linear-gradient(135deg, var(--theme-primary), var(--theme-secondary));
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .download-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        .download-btn:hover::before {
+            left: 100%;
+        }
+
+        .download-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Enhanced coin hover effects */
+        .achievement-coin {
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .achievement-coin:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 
+                0 8px 25px rgba(0, 0, 0, 0.3),
+                inset 0 4px 8px rgba(255, 255, 255, 0.3),
+                inset 0 -4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Mobile responsiveness for coin modal */
+        @media (max-width: 480px) {
+            .coin-modal {
+                padding: 10px;
+            }
+
+            .coin-modal-header {
+                padding: 20px 20px 15px;
+            }
+
+            .coin-modal-header h3 {
+                font-size: 1.5rem;
+            }
+
+            .coin-modal-body {
+                padding: 20px;
+            }
+
+            .coin-display-large {
+                width: 150px;
+                height: 150px;
+                margin-bottom: 20px;
+            }
+
+            .coin-info p {
+                font-size: 1rem;
+                margin-bottom: 12px;
+            }
+
+            .download-btn {
+                padding: 12px 24px;
+                font-size: 1rem;
+            }
+        }
